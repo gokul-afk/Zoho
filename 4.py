@@ -22,3 +22,32 @@ for word in res:
 
 s = ", ".join(res3)
 print(s)
+
+
+'''
+Q4. VoWstrings
+If a string has equal number of every vowels in it, then it is voWstring.
+Example "aioeu", "aeoui" "aaoouuiiee" , "usaeio", "", "d" are voWstrings.
+Given a string of lowercase letters (a-z), output the non-empty voWstring substrings of the given
+string.
+Input
+Input consists of a line containing a string of length L.
+Output
+Output all non-empty voWstring substrings
+Example 1:
+input : aeiou
+output : aeiou
+Example 2:
+input : aeoui
+output : aeoui
+Example 3:
+input : aeiouiaeo
+output : aeiou, ouiae, uiaeo
+Example 4:
+input : daeiouiaeo
+output : d, daeiou, aeiou, ouiae, uiaeo
+Example 5 :
+input : aeiouiaeou
+output : aeiou, ouiae, uiaeo, iaeou, aeiouiaeou
+
+'''
