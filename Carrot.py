@@ -1,93 +1,106 @@
-# Python3 code to implement the approach
 import sys
+from collections import deque
  
-# User defined Pair class
-class Pair:
-    def __init__(self, x, y):
-        self.first = x
-        self.second = y
+# Below lists detail all four possible movements from a cell
+row = [-1, 0, 0, 1]
+col = [0, -1, 1, 0]
  
-# Check if it is possible to go to (x, y) from the current
-# position. The function returns false if the cell has
-# value 0 or already visited
-def isSafe(mat, visited, x, y):
-    return (x >= 0 and x < len(mat) and y >= 0 and y < len(mat[0]) and mat[x][y] == 1 and (not visited[x][y]))
  
-def findShortestPath(mat, visited, i, j, x, y, min_dist, dist):
-    if (i == x and j == y):
-        min_dist = min(dist, min_dist)
-        return min_dist
+# Function to check if it is possible to go to position (row, col)
+# from the current position. The function returns false if row, col
+# is not a valid position or has a value 0 or already visited.
+def isValid(mat, visited, row, col):
+    return (row >= 0) and (row < len(mat)) and (col >= 0) and (col < len(mat[0])) \
+           and mat[row][col] == 1 and not visited[row][col]
  
-    # set (i, j) cell as visited
-    visited[i][j] = True
-     
-    # go to the bottom cell
-    if (isSafe(mat, visited, i + 1, j)):
-        min_dist = findShortestPath(
-            mat, visited, i + 1, j, x, y, min_dist, dist + 1)
  
-    # go to the right cell
-    if (isSafe(mat, visited, i, j + 1)):
-        min_dist = findShortestPath(
-            mat, visited, i, j + 1, x, y, min_dist, dist + 1)
- 
-    # go to the top cell
-    if (isSafe(mat, visited, i - 1, j)):
-        min_dist = findShortestPath(
-            mat, visited, i - 1, j, x, y, min_dist, dist + 1)
- 
-    # go to the left cell
-    if (isSafe(mat, visited, i, j - 1)):
-        min_dist = findShortestPath(
-            mat, visited, i, j - 1, x, y, min_dist, dist + 1)
- 
-    # backtrack: remove (i, j) from the visited matrix
-    visited[i][j] = False
-    return min_dist
- 
-# Wrapper over findShortestPath() function
+# Find the shortest possible route in a matrix `mat` from source `src` to
+# destination `dest`
 def findShortestPathLength(mat, src, dest):
-    if (len(mat) == 0 or mat[src.first][src.second] == 0
-            or mat[dest.first][dest.second] == 0):
+ 
+    # get source cell (i, j)
+    i, j = src
+ 
+    # get destination cell (x, y)
+    x, y = dest
+ 
+    # base case: invalid input
+    if not mat or len(mat) == 0 or mat[i][j] == 0 or mat[x][y] == 0:
         return -1
  
-    row = len(mat)
-    col = len(mat[0])
+    # `M × N` matrix
+    (M, N) = (len(mat), len(mat[0]))
  
-    # construct an `M × N` matrix to keep track of visited
-    # cells
-    visited = []
-    for i in range(row):
-        visited.append([None for _ in range(col)])
+    # construct a matrix to keep track of visited cells
+    visited = [[False for x in range(N)] for y in range(M)]
  
-    dist = sys.maxsize
-    dist = findShortestPath(mat, visited, src.first,
-                            src.second, dest.first, dest.second, dist, 0)
+    # create an empty queue
+    q = deque()
  
-    if (dist != sys.maxsize):
-        return dist
-    return -1
+    # mark the source cell as visited and enqueue the source node
+    visited[i][j] = True
  
-# Driver code
-mat = [[1, 0, 1, 1, 1, 1, 0, 1, 1, 1],
-       [1, 0, 1, 0, 1, 1, 1, 0, 1, 1],
-       [1, 1, 1, 0, 1, 1, 0, 1, 0, 1],
-       [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-       [1, 1, 1, 0, 1, 1, 1, 0, 1, 0],
-       [1, 0, 1, 1, 1, 1, 0, 1, 0, 0],
-       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-       [1, 0, 1, 1, 1, 1, 0, 1, 1, 1],
-       [1, 1, 0, 0, 0, 0, 1, 0, 0, 1]
-       ]
+    # (i, j, dist) represents matrix cell coordinates, and their
+    # minimum distance from the source
+    q.append((i, j, 0))
  
-src = Pair(0, 0)
-dest = Pair(3, 4)
-dist = findShortestPathLength(mat, src, dest)
-if (dist != -1):
-    print("Shortest Path is", dist)
+    # stores length of the longest path from source to destination
+    min_dist = sys.maxsize
  
-else:
-    print("Shortest Path doesn't exist")
+    # loop till queue is empty
+    while q:
+ 
+        # dequeue front node and process it
+        (i, j, dist) = q.popleft()
+ 
+        # (i, j) represents a current cell, and `dist` stores its
+        # minimum distance from the source
+ 
+        # if the destination is found, update `min_dist` and stop
+        if i == x and j == y:
+            min_dist = dist
+            break
+ 
+        # check for all four possible movements from the current cell
+        # and enqueue each valid movement
+        for k in range(4):
+            # check if it is possible to go to position
+            # (i + row[k], j + col[k]) from current position
+            if isValid(mat, visited, i + row[k], j + col[k]):
+                # mark next cell as visited and enqueue it
+                visited[i + row[k]][j + col[k]] = True
+                q.append((i + row[k], j + col[k], dist + 1))
+ 
+    if min_dist != sys.maxsize:
+        return min_dist
+    else:
+        return -1
+ 
+ 
+if __name__ == '__main__':
+ 
+    mat = [
+        [1, 1, 1, 1, 1, 0, 0, 1, 1, 1],
+        [0, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+        [0, 0, 1, 0, 1, 1, 1, 0, 0, 1],
+        [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+        [1, 0, 1, 1, 1, 0, 0, 1, 1, 0],
+        [0, 0, 0, 0, 1, 0, 0, 1, 0, 1],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+        [1, 1, 1, 1, 1, 0, 0, 1, 1, 1],
+        [0, 0, 1, 0, 0, 1, 1, 0, 0, 1]
+    ]
+ 
+    src = (0, 0)
+    dest = (9, 9)
+ 
+    min_dist = findShortestPathLength(mat, src, dest)
+ 
+    if min_dist != -1:
+        print("The shortest path from source to destination has length", min_dist)
+    else:
+        print("Destination cannot be reached from source")
 
 '''
 Q5. Where's the carrot?
