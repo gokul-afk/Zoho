@@ -22,4 +22,3 @@ for word in res:
 
 s = ", ".join(res3)
 print(s)
-'''menu'''
