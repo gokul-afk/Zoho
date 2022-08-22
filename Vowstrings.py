@@ -25,6 +25,7 @@ print(s)
 
 
 '''
+
 Q4. VoWstrings
 If a string has equal number of every vowels in it, then it is voWstring.
 
