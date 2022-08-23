@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+n = 9
+>>>>>>> 3fcfcb75b31bcf4de95ddfbe5f05b015bd635efa
 
 def isValid(maze, x, y, res):
     
@@ -45,8 +49,12 @@ def solveMaze(maze):
  
  
 count=0
+<<<<<<< HEAD
 maze = [
     [1, 0, 0, 1, 1, 1, 1, 0, 0 ],
+=======
+maze = [[1, 0, 0, 1, 1, 1, 1, 0, 0 ],
+>>>>>>> 3fcfcb75b31bcf4de95ddfbe5f05b015bd635efa
 [1, 0, 1, 0, 0, 0, 0, 1, 0 ],
 [1, 0, 1, 0, 0, 0, 0, 1, 0 ],
 [1, 0, 1, 0, 0, 1, 0, 0, 1 ],
@@ -54,17 +62,26 @@ maze = [
 [1, 0, 0, 1, 0, 0, 1, 0, 1 ],
 [1, 0, 0, 0, 0, 1, 0, 0, 1 ],
 [0, 1, 1, 1, 1, 0, 0, 1, 0 ],
+<<<<<<< HEAD
 [0, 0, 0, 0, 0, 0, 0, 0, 1 ]
 ]
 
 m= len(maze)
 n= len(maze[0]) 
+=======
+[0, 0, 0, 0, 0, 0, 0, 0, 1 ]]
+ 
+>>>>>>> 3fcfcb75b31bcf4de95ddfbe5f05b015bd635efa
 solveMaze(maze)
 
 print(count)
 
 
 '''
+You should mention n at the start of the program
+
+
+
 OUTPUT
 1 0 0 1 0 0 0 0 0 0 
 1 0 1 0 1 0 0 0 1 0
@@ -89,6 +106,11 @@ OUTPUT
 [0, 1, 1, 1, 1, 0, 0, 1, 0 ],
 [0, 0, 0, 0, 0, 0, 0, 0, 1 ]]
 33
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3fcfcb75b31bcf4de95ddfbe5f05b015bd635efa
 
 [1, 0, 1, 1, 0, 1, 1, 0, 0 ],
 [1, 0, 1, 1, 1, 0, 0, 1, 0 ],
